@@ -1,0 +1,15 @@
+{
+  "name": "visit-calabar",
+  "version": "1.0.0",
+  "description": "A Calabar tourism focused site development ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sam Odum",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "normalize": "^0.3.1"
+  }
+}
