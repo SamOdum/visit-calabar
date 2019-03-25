@@ -1,6 +1,13 @@
 const gulp = require('gulp');
 const watch = require('gulp-watch');
-const browserSync = require('browser-sync').create();
+const browserSync = require('browser-sync');
+const rename = require('gulp-rename');
+const sass = require('gulp-sass');
+const postcss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
+const simpleVars = require('postcss-simple-vars');
+const nested = require('postcss-nested');
+const cssImport = require('postcss-import');
 
 //Copying from app to build
 function copy() {
@@ -10,9 +17,43 @@ function copy() {
     'app/**/*.css',
     'app/**/*.js'
   ])
+  .pipe(rename({prefix: 'proBuild.'}))
   .pipe(gulp.dest('build'));
 }
 
+//Testing gulp
+function main(done) {
+  console.log('Congratulation, your test passed!');
+  done();
+}
+gulp.task('default', main);
+
+//Html task
+function html(done) {
+  console.log('Assume something is really cooking here.');
+  done();
+}
+gulp.task('html', html);
+
+//Css task
+function styles(done) {
+  gulp.src('./app/assets/styles/styles.css')
+    .pipe(postcss([cssImport(), simpleVars(),nested(),autoprefixer()]))
+    .pipe(gulp.dest('./app/temp/styles '));
+  done();
+}
+gulp.task('styles', styles);
+
+//Watch file changes
+function watchFiles(done) {
+  watch('./app/index.html', gulp.series(html));
+  watch('./app/assets/styles/**/*.css', gulp.series(styles));
+  done();
+}
+gulp.task('watch', watchFiles);
+ 
+
+ 
 
 //Browser sync function
 function serve() {
@@ -22,6 +63,7 @@ function serve() {
       port: 3000
     });
   }
+
 
 gulp.task('buildAndServe', gulp.series(copy, serve));
 
