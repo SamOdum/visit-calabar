@@ -9,6 +9,7 @@ const simpleVars = require('postcss-simple-vars');
 const nested = require('postcss-nested');
 const cssImport = require('postcss-import');
 
+
 //Copying from app to build
 function copy() {
   return gulp.src([
@@ -119,3 +120,7 @@ gulp.task('buildAndServe', gulp.series(copy, serve));
 // gulp.task('watch_files', watch_files);
 
 // gulp.task('watch', gulp.parallel(functionOne, functionTwo, watch_files));
+
+gulp.task('default', function(){
+    console.log("Hurray, I succesfully created a gulp task!");
+}); //comments
