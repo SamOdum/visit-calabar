@@ -1,7 +1,7 @@
 {
   "name": "visit-calabar",
   "version": "1.0.0",
-  "description": "A Calabar tourism focused site development ",
+  "description": "A Calabar tourism-focused site development ",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,6 +12,18 @@
     "normalize.css": "^8.0.1"
   },
   "devDependencies": {
-    "gulp": "^4.0.0"
+    "browser-sync": "^2.26.3",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-postcss": "^8.0.0",
+    "gulp-pretty-html": "^2.0.10",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-watch": "^5.0.1",
+    "postcss-import": "^12.0.1",
+    "postcss-nested": "^4.1.2",
+    "postcss-preset-env": "^6.6.0",
+    "postcss-simple-vars": "^5.0.2"
   }
 }
