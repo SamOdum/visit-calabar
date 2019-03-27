@@ -28,46 +28,47 @@ const jsWatch = 'app/assets/js/**/*.js';
 
 
 const reload = browserSync.reload;
-  
+
 
 
 /**CSS tasks compilation ========================== */
 function style(done) {
-  gulp.src(styleSrc)
-    .pipe(sourcemaps.init())
-    .pipe(sass({
-      errorLogToConsole: true,
-      outputStyle: 'compressed'
-    }))
-    .on('error', console.error.bind(console))
-    .pipe(autoprefixer({
-      browsers: ['last 2 versions'],
-      cascade: false
-    }))
-    .pipe(rename({
-      suffix: '.min'
-    }))
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(styleDest))
-    .pipe(browserSync.stream());
-  done();
+    gulp.src(styleSrc)
+        .pipe(sourcemaps.init())
+        .pipe(sass({
+            errorLogToConsole: true,
+            outputStyle: 'compressed'
+        }))
+        .on('error', console.error.bind(console))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        }))
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest(styleDest))
+        .pipe(browserSync.stream());
+    done();
 }
 gulp.task('style', style);
 
 
+/**HTML tasks compilation =========================== */
 function htmlAction(done) {
-  gulp.watch(htmlWatch, reload);
-  done();
+    gulp.watch(htmlWatch, reload);
+    done();
 }
 gulp.task('htmlAction', htmlAction);
 
 
 /**JS tasks compilation =========================== */
 function jsAction(done) {
-  gulp.src(jsSrc)
-    .pipe(gulp.dest(jsDest))
-    .pipe(browserSync.stream());
-  done();
+    gulp.src(jsSrc)
+        .pipe(gulp.dest(jsDest))
+        .pipe(browserSync.stream());
+    done();
 }
 gulp.task('jsAction', jsAction);
 
@@ -80,20 +81,20 @@ gulp.task('default', gulp.parallel(style, jsAction));
 
 /**Browser sync =================================== */
 function browserssync(done) {
-  browserSync.init({
-    server:{
-      baseDir:'./app'
-    }
-  });
-  done();
+    browserSync.init({
+        server: {
+            baseDir: './app'
+        }
+    });
+    done();
 }
 gulp.task('browserssync', browserssync);
 
 /**Watch function & task ========================== */
 function watchFiles(done) {
-  gulp.watch(styleWatch, style);
-  gulp.watch(jsWatch, gulp.series(jsAction,reload));
-  gulp.watch(htmlWatch, gulp.series(reload));
-  done();
+    gulp.watch(styleWatch, style);
+    gulp.watch(jsWatch, gulp.series(jsAction, reload));
+    gulp.watch(htmlWatch, gulp.series(reload));
+    done();
 }
-gulp.task('watch',gulp.series(watchFiles, browserssync));
+gulp.task('watch', gulp.series(watchFiles, browserssync));
