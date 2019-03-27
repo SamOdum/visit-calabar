@@ -1,126 +1,99 @@
 const gulp = require('gulp');
 const watch = require('gulp-watch');
-const browserSync = require('browser-sync');
+const browserSync = require('browser-sync').create();
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
 const postcss = require('gulp-postcss');
-const autoprefixer = require('autoprefixer');
+const autoprefixer = require('gulp-autoprefixer');
 const simpleVars = require('postcss-simple-vars');
 const nested = require('postcss-nested');
 const cssImport = require('postcss-import');
+const presetEnv = require('postcss-preset-env');
+const sourcemaps = require('gulp-sourcemaps');
+const prettyHtml = require('gulp-pretty-html');
 
 
-//Copying from app to build
-function copy() {
-  return gulp.src([
-    'app/*.html',
-    'app/**/*.jpg',
-    'app/**/*.css',
-    'app/**/*.js'
-  ])
-  .pipe(rename({prefix: 'proBuild.'}))
-  .pipe(gulp.dest('build'));
-}
 
-//Testing gulp
-function main(done) {
-  console.log('Congratulation, your test passed!');
+const styleSrc = 'app/assets/styles/style.sass';
+const styleDest = './app/build/styles/';
+const styleWatch = 'app/assets/styles/**/*.sass';
+
+
+const htmlWatch = './app/index.html';
+
+
+const jsSrc = 'app/assets/js/script.js';
+const jsDest = './app/build/js/';
+const jsWatch = 'app/assets/js/**/*.js';
+
+
+const reload = browserSync.reload;
+  
+
+
+/**CSS tasks compilation ========================== */
+function style(done) {
+  gulp.src(styleSrc)
+    .pipe(sourcemaps.init())
+    .pipe(sass({
+      errorLogToConsole: true,
+      outputStyle: 'compressed'
+    }))
+    .on('error', console.error.bind(console))
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions'],
+      cascade: false
+    }))
+    .pipe(rename({
+      suffix: '.min'
+    }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(styleDest))
+    .pipe(browserSync.stream());
   done();
 }
-gulp.task('default', main);
+gulp.task('style', style);
 
-//Html task
-function html(done) {
-  console.log('Assume something is really cooking here.');
+
+function htmlAction(done) {
+  gulp.watch(htmlWatch, reload);
   done();
 }
-gulp.task('html', html);
+gulp.task('htmlAction', htmlAction);
 
-//Css task
-function styles(done) {
-  gulp.src('./app/assets/styles/styles.css')
-    .pipe(postcss([cssImport(), simpleVars(),nested(),autoprefixer()]))
-    .pipe(gulp.dest('./app/temp/styles '));
+
+/**JS tasks compilation =========================== */
+function jsAction(done) {
+  gulp.src(jsSrc)
+    .pipe(gulp.dest(jsDest))
+    .pipe(browserSync.stream());
   done();
 }
-gulp.task('styles', styles);
+gulp.task('jsAction', jsAction);
 
-//Watch file changes
+
+/**Default task =================================== */
+let doTheseTasks = ['style', 'jsAction'];
+gulp.task('default', gulp.parallel(style, jsAction));
+
+
+
+/**Browser sync =================================== */
+function browserssync(done) {
+  browserSync.init({
+    server:{
+      baseDir:'./app'
+    }
+  });
+  done();
+}
+gulp.task('browserssync', browserssync);
+
+/**Watch function & task ========================== */
 function watchFiles(done) {
-  watch('./app/index.html', gulp.series(html));
-  watch('./app/assets/styles/**/*.css', gulp.series(styles));
+  gulp.watch(styleWatch, style);
+  gulp.watch(jsWatch, gulp.series(jsAction,reload));
+  gulp.watch(htmlWatch, gulp.series(reload));
   done();
 }
-gulp.task('watch', watchFiles);
- 
-
- 
-
-//Browser sync function
-function serve() {
-    return browserSync.init({
-      server: 'build',
-      open: false,
-      port: 3000
-    });
-  }
-
-
-gulp.task('buildAndServe', gulp.series(copy, serve));
-
-
-
-
-
-
-
-
-
-
-
-
-
-// gulp.task('html', function(done){
-//     console.log('Imagine somethin fun happening to my html task');
-//     done();
-// });
-
-// gulp.task('watch', function(done) {
-//     watch('./app/index.html', function() {
-//         gulp.series('html');
-//     });
-//     done();
-// });
-
-// function html(done) {
-//     console.log('Imagine I\'ve solved it!');
-//     done();
-// }
-
-// function functionOne(done){
-//     console.log("Hurray, I succesfully created a gulp task!");
-//     done();
-// }
-
-// function functionTwo(done){
-//     console.log("Testing out the 2nd function!");
-//     done();
-// }
-
-// function watch_files(done) {
-//     watch('./app/index.html', function() {
-//         gulp.parallel('html');
-//     });
-//     done();
-// }
-
-// gulp.task('html', html);
-// gulp.task('functionOne', functionOne);
-// gulp.task('functionTwo', functionTwo);
-// gulp.task('watch_files', watch_files);
-
-// gulp.task('watch', gulp.parallel(functionOne, functionTwo, watch_files));
-
-gulp.task('default', function(){
-    console.log("Hurray, I succesfully created a gulp task!");
-}); //comments
+gulp.task('watch',gulp.series(watchFiles, browserssync));
