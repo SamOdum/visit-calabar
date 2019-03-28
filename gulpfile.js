@@ -57,7 +57,7 @@ gulp.task('style', style);
 
 /**HTML tasks compilation =========================== */
 function htmlAction(done) {
-    gulp.watch(htmlWatch, reload);
+    gulp.watch(htmlWatch, gulp.series(reload));
     done();
 }
 gulp.task('htmlAction', htmlAction);
@@ -94,7 +94,7 @@ gulp.task('browserssync', browserssync);
 function watchFiles(done) {
     gulp.watch(styleWatch, style);
     gulp.watch(jsWatch, gulp.series(jsAction, reload));
-    gulp.watch(htmlWatch, gulp.series(reload));
+    gulp.watch(htmlWatch, htmlAction);
     done();
 }
 gulp.task('watch', gulp.series(watchFiles, browserssync));
