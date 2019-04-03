@@ -8,8 +8,10 @@
     &__image-container
         margin-left: auto
         margin-right: auto
-        padding: 3rem 0 0
-        // background-color: black
+        padding: 1.5rem 0 0
+        
+        +at-medium
+            padding-top: 3rem
 
     
     &__title
@@ -21,15 +23,17 @@
         margin-right: auto
         // background-color: red
 
-        +at-medium
+        +at-large
             padding-left: 3rem
 
     &__paragraphs
         line-height: 1.65
-        margin: 1.8rem 0
+        font-weight: 300
+        font-size: 1.1rem
+        margin: 0 0 1.2rem 0
 
-        +at-small
-            font-size: 1.125rem
+        +at-medium
+            font-size: 1.6rem
 
         &--bold
             font-weight: bold

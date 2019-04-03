@@ -1,0 +1,74 @@
+.features
+    display: flex
+    flex-flow: row wrap
+    justify-content: center
+    background-color: yellow
+
+    &__heading
+        width: 35%
+        display: flex
+        flex-flow: row wrap
+        justify-content: space-evenly
+        align-items: center
+
+        &--image-container
+            flex: 0 0 65px
+
+        &--title
+            flex: 0 0 auto
+            font-size: 1.9rem
+            font-weight: 300
+            margin-top: auto
+            margin-bottom: auto
+
+            +at-medium
+                font-size: 2.875rem
+
+            &-strong
+                font-weight: 500
+
+    &__content
+        flex: 1 1 400px
+        // background-color: green
+        padding: 1rem 0
+
+        display: flex
+        justify-content: space-evenly
+        flex-flow: row wrap
+
+        &--image-container
+            flex: 0 0 65px
+            margin-bottom: 0.5rem
+
+        &--text-block
+            flex: 0 1 380px
+
+            display: flex
+            flex-flow: column nowrap
+            // align-items: flex-start
+            // justify-content: center
+
+        &--title
+            font-size: 1.7rem
+            font-weight: 300
+            // align-self: flex-start
+            margin-top: 0
+            margin-bottom: 0
+            text-align: center
+
+            +at-medium
+                text-align: left
+                font-size: 2.2rem
+                // font-weight: 500
+            
+        &--paragraph
+            line-height: 1.65
+            font-weight: 300
+            font-size: 1.1rem
+            text-align: center
+
+            +at-medium
+                text-align: left
+                font-size: 1.6rem
+
+     

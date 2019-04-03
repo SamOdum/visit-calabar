@@ -3,8 +3,11 @@
     font-size: 1.9rem
     color: $sec-color
 
-    +at-small
+    +at-medium
         font-size: 2.875rem
+
+    // +at-small
+    //     font-size: 2.875rem
 
     &--centered
         text-align: center
@@ -15,8 +18,11 @@
     &--small
         font-size: 1.2rem
 
-        +at-small
-            font-size: 1.875rem /**30*/
+        +at-medium
+            font-size: 2rem //**30*/
+
+        // +at-small
+        //     font-size: 1.875rem /**30*/
 
     &--narrow
         max-width: 31.25rem /*500px*/
@@ -27,16 +33,22 @@
         font-weight: 100
 
     &--bold
-        font-weight: bold
+        font-weight: 400
 
     &--bottom-margin-small
         margin-bottom: 0.5em
 
     &--bottom-margin-large
-        margin-bottom: 1.6em
+        margin-bottom: 2rem
+
+        +at-medium
+            margin-bottom: 3.4rem
 
     &--top-margin-large
-        margin-top: 0.8em
+        margin-top: 2rem
+
+        +at-medium
+            margin-top: 3.4rem
 
         +at-small
-            margin-top: -0.5em
+            // margin-top: -0.5em  //No need for continu
